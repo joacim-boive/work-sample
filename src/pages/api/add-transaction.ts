@@ -6,7 +6,7 @@ import sqlite3 from 'sqlite3';
 
 export default async function addTransaction(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   let db: Database<sqlite3.Database, sqlite3.Statement> | undefined;
 
@@ -28,7 +28,7 @@ export default async function addTransaction(
   try {
     await db?.run(
       'INSERT INTO transactions (accountId, amount, timestamp) VALUES (?, ?, ?)',
-      [accountId, amount, timestamp]
+      [accountId, amount, timestamp],
     );
     return res.status(200).json({ success: true });
   } catch (error) {

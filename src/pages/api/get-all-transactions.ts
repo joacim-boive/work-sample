@@ -5,7 +5,7 @@ import sqlite3 from 'sqlite3';
 
 export default async function getAllTransactions(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   let db: Database<sqlite3.Database, sqlite3.Statement> | undefined;
 
@@ -14,7 +14,7 @@ export default async function getAllTransactions(
   } catch (error) {
     console.error(
       'getAllTransactions - unable to connect to the database:',
-      error
+      error,
     );
     return res
       .status(500)
@@ -23,7 +23,7 @@ export default async function getAllTransactions(
 
   try {
     const transactions = await db.all(
-      'SELECT * FROM transactions ORDER BY timestamp DESC LIMIT 1000'
+      'SELECT * FROM transactions ORDER BY timestamp DESC LIMIT 1000',
     );
     return res.status(200).json({ success: true, transactions });
   } catch (error) {
