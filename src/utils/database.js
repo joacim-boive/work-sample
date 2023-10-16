@@ -26,7 +26,7 @@ export const setupDatabase = async () => {
   )`);
 
   await db.exec(
-    `CREATE INDEX IF NOT EXISTS idx_accountId ON accounts (accountId COLLATE NOCASE ASC);`
+    `CREATE INDEX IF NOT EXISTS idx_accountId ON accounts (accountId COLLATE NOCASE ASC);`,
   );
 
   await db.exec(`CREATE TABLE IF NOT EXISTS transactions (
@@ -40,6 +40,6 @@ export const setupDatabase = async () => {
   )`);
 
   await db.exec(
-    `CREATE INDEX IF NOT EXISTS idx_timestamp ON transactions (timestamp DESC);`
+    `CREATE INDEX IF NOT EXISTS idx_timestamp ON transactions (timestamp DESC);`,
   );
 };

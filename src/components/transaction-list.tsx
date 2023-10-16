@@ -68,7 +68,7 @@ function TransactionList({
                   </TableCell>
                 </TableRow>
               );
-            }
+            },
           )}
         </TableBody>
       </Table>

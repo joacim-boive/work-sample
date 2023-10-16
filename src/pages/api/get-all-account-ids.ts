@@ -5,7 +5,7 @@ import sqlite3 from 'sqlite3';
 
 export default async function getAllAccountIds(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   let db: Database<sqlite3.Database, sqlite3.Statement> | undefined;
 
@@ -14,7 +14,7 @@ export default async function getAllAccountIds(
   } catch (error) {
     console.error(
       'getAllAccountIds - unable to connect to the database:',
-      error
+      error,
     );
     return res
       .status(500)
@@ -23,7 +23,7 @@ export default async function getAllAccountIds(
 
   try {
     const data = await db?.all(
-      'SELECT accountId FROM accounts ORDER BY accountId COLLATE NOCASE ASC LIMIT 1000'
+      'SELECT accountId FROM accounts ORDER BY accountId COLLATE NOCASE ASC LIMIT 1000',
     );
     const accountIds = data?.map((account) => account.accountId);
     return res.status(200).json({ success: true, accountIds });
