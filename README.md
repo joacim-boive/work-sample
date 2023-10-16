@@ -1,4 +1,4 @@
-# Joacim Boive - Senior Frontend Developer - React
+# Joacim Boive - Senior Frontend Developer - React & Next.js
 
 In this repository is a representation on what to expect when employing my services.
 
