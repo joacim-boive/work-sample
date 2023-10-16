@@ -49,21 +49,21 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       newBalance = parsedAmount;
       await db?.run(
         'INSERT INTO accounts (accountId, balance, action, timestamp) VALUES (?, ?, ?, ?)',
-        [accountId, parsedAmount, 'created', timestamp]
+        [accountId, parsedAmount, 'created', timestamp],
       );
     } else {
       // Perform the transaction and update the balance
       newBalance = account.balance + parsedAmount;
       await db?.run(
         'UPDATE accounts SET balance = ?, action = ?, timestamp = ? WHERE accountId = ?',
-        [newBalance, action, timestamp, accountId]
+        [newBalance, action, timestamp, accountId],
       );
     }
 
     // Insert the transaction details into the transactions table
     await db?.run(
       'INSERT INTO transactions (accountId, amount, timestamp, action, newBalance) VALUES (?, ?, ?, ?, ?)',
-      [accountId, amount, timestamp, action, newBalance]
+      [accountId, amount, timestamp, action, newBalance],
     );
 
     res.status(201).json({ message: 'Transaction added successfully' });

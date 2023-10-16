@@ -20,7 +20,7 @@ export function formatDate(timestamp: number) {
 export function formatCurrency(
   amount: number = 0,
   locale: string = 'sv-SE',
-  currency: string = 'SEK'
+  currency: string = 'SEK',
 ): string {
   const formatter = new Intl.NumberFormat(locale, {
     style: 'currency',
