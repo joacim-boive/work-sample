@@ -1,16 +1,15 @@
 import NewTransactionForm from '@/components/new-transaction-form';
-import * as refreshContext from '@/context/refresh-context';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-const { RefreshProvider } = refreshContext;
-
+const queryClient = new QueryClient();
 describe('NewTransactionForm', () => {
   it('should submit transaction with existing account ID and valid amount', async () => {
     const { getByLabelText, debug } = render(
-      <RefreshProvider>
+      <QueryClientProvider client={queryClient}>
         <NewTransactionForm existingAccountIds={['123', '456', '789']} />
-      </RefreshProvider>
+      </QueryClientProvider>,
     );
 
     // Assert that the combobox was rendered
@@ -21,7 +20,7 @@ describe('NewTransactionForm', () => {
     // Fill in the form fields
     await userEvent.type(
       screen.getByLabelText('Create new account'),
-      'Jest Test'
+      'Jest Test',
     );
     await userEvent.type(screen.getByLabelText('Amount'), '100');
 
@@ -37,9 +36,7 @@ describe('NewTransactionForm', () => {
 
   it('should show error messages when the form is invalid', async () => {
     const { getByLabelText, debug } = render(
-      <RefreshProvider>
-        <NewTransactionForm existingAccountIds={[]} />
-      </RefreshProvider>
+      <NewTransactionForm existingAccountIds={[]} />,
     );
 
     // Submit the form
@@ -48,7 +45,7 @@ describe('NewTransactionForm', () => {
     // Form should be reset after successful submit
     await waitFor(async () => {
       expect(
-        screen.getByText(/Either select account or create a new one./i)
+        screen.getByText(/Either select account or create a new one./i),
       ).toBeInTheDocument();
       expect(screen.getByText(/Amount cannot be zero/i)).toBeInTheDocument();
     });

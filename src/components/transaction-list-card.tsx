@@ -9,36 +9,30 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import Spinner from '@/components/ui/spinner';
-import { useRefresh } from '@/context/refresh-context';
+import { Transaction } from '@/types';
+import { apiAllTransactions } from '@/urls';
+import { QueryObserverResult, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+const fetchTransactions = async () => {
+  const response = await axios.get(apiAllTransactions);
+  return response.data.transactions;
+};
+
+interface CustomError extends Error {
+  message: string;
+}
 
 export default function TransactionListCard() {
-  const [transactions, setTransactions] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-  const { refreshKey } = useRefresh();
-
-  useEffect(() => {
-    axios
-      .get('/api/get-all-transactions')
-      .then((response) => {
-        const { success, transactions } = response.data;
-        if (success) {
-          setTransactions(transactions);
-          setIsError(false);
-        } else {
-          setIsError(true);
-        }
-      })
-      .catch((error) => {
-        setIsError(true);
-        console.error('/api/get-all-transactions error:', error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, [refreshKey]);
+  const {
+    data: transactions = [],
+    error,
+    isLoading,
+  }: QueryObserverResult<Transaction[], CustomError> = useQuery({
+    queryKey: [apiAllTransactions],
+    queryFn: fetchTransactions,
+    staleTime: Infinity,
+  });
 
   return (
     <Card className="flex-1">
@@ -49,13 +43,14 @@ export default function TransactionListCard() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        {isLoading && (
-          <p>
-            <Spinner /> Loading transactions...
-          </p>
-        )}
-        {isError && <p>There was an error loading transactions</p>}
-        {!isLoading && !isError && (
+        {isLoading ? (
+          <>
+            <Spinner />
+            Loading transactions...
+          </>
+        ) : error ? (
+          <div>Error fetching transactions: {error?.message}</div>
+        ) : (
           <TransactionList existingTransactions={transactions} />
         )}
       </CardContent>
