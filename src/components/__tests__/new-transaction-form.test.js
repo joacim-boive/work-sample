@@ -36,7 +36,9 @@ describe('NewTransactionForm', () => {
 
   it('should show error messages when the form is invalid', async () => {
     const { getByLabelText, debug } = render(
-      <NewTransactionForm existingAccountIds={[]} />,
+      <QueryClientProvider client={queryClient}>
+        <NewTransactionForm existingAccountIds={[]} />
+      </QueryClientProvider>,
     );
 
     // Submit the form
