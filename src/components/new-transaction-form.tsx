@@ -72,7 +72,7 @@ function NewTransactionForm({
     if (!!existingAccountId) setValue('accountId', '');
   }, [existingAccountId, setValue]);
 
-  const mutation = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: async (data: FormData) => {
       return axios.post('/api/transactions', data);
     },
@@ -105,7 +105,7 @@ function NewTransactionForm({
       accountId: existingAccountId || data.accountId,
     };
 
-    mutation.mutate(newData);
+    mutate(newData);
   };
 
   return (
@@ -185,7 +185,7 @@ function NewTransactionForm({
           role="button"
           className="ml-auto"
         >
-          {mutation.isLoading && <Spinner />}Submit
+          {isPending && <Spinner />}Submit
         </Button>
       </form>
     </ErrorBoundary>
