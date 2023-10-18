@@ -41,6 +41,7 @@ export function Combobox({
           role="combobox"
           aria-expanded={isOpen}
           className="w-full justify-between"
+          aria-label="Select account..."
         >
           <span className="truncate whitespace-nowrap">
             {value
@@ -67,7 +68,7 @@ export function Combobox({
                 <Check
                   className={cn(
                     'mr-2 h-4 w-4',
-                    value === option.value ? 'opacity-100' : 'opacity-0'
+                    value === option.value ? 'opacity-100' : 'opacity-0',
                   )}
                 />
                 {option.label}

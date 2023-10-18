@@ -1,28 +1,28 @@
-import { rest } from "msw";
+import { rest } from 'msw';
 
 export const handlers = [
-  rest.post("/api/transactions", (req, res, ctx) => {
+  rest.post('/api/add-transaction', (req, res, ctx) => {
     return res(
       ctx.status(201),
       ctx.json({
         success: true,
         data: {
-          message: "Transaction added successfully",
+          message: 'Transaction added successfully',
         },
-      })
+      }),
     );
   }),
-  rest.get("/api/get-all-account-ids", (req, res, ctx) => {
+  rest.get('/api/get-all-account-ids', (req, res, ctx) => {
     return res(
       ctx.json({
         success: true,
         data: {
-          accountIds: ["MSW-123"],
+          accountIds: ['MSW-123'],
         },
-      })
+      }),
     );
   }),
-  rest.get("/api/all-transactions", (req, res, ctx) => {
+  rest.get('/api/all-transactions', (req, res, ctx) => {
     return res(
       ctx.json({
         success: true,
@@ -30,15 +30,15 @@ export const handlers = [
           transactions: [
             {
               id: 1,
-              accountId: "MSW-123",
+              accountId: 'MSW-123',
               amount: 100,
               timestamp: 1697225421610,
-              action: "deposit",
+              action: 'deposit',
               newBalance: 200,
             },
           ],
         },
-      })
+      }),
     );
   }),
 ];

@@ -74,7 +74,7 @@ function NewTransactionForm({
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: FormData) => {
-      return axios.post('/api/transactions', data);
+      return axios.post('/api/add-transaction', data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [] });
