@@ -5,4 +5,5 @@ export interface Transaction {
   timestamp: number;
   action: string;
   newBalance: number;
+  newCursor: number;
 }

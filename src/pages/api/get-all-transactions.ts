@@ -22,13 +22,35 @@ export default async function getAllTransactions(
   }
 
   try {
-    const transactions = await db.all(
-      'SELECT * FROM transactions ORDER BY timestamp DESC LIMIT 1000',
-    );
-    return res.status(200).json({ success: true, transactions });
+    debugger;
+    const { limit = 10, cursor = Date.now() } = req.query;
+
+    let query = `
+      SELECT * 
+      FROM transactions 
+      WHERE timestamp < $cursor
+      ORDER BY timestamp DESC 
+      LIMIT $limit
+    `;
+
+    const transactions = await db.all(query, {
+      $limit: limit,
+      $cursor: cursor,
+    });
+
+    const nextCursor = transactions[transactions.length - 1]?.timestamp;
+
+    res.status(200).json({
+      success: true,
+      transactions,
+      nextCursor,
+    });
   } catch (error) {
-    return res
-      .status(400)
-      .json({ success: false, message: 'Error in getAllTransactions', error });
+    console.error('getAllTransactions - error:', error);
+    return res.status(400).json({
+      success: false,
+      message: 'Error in getAllTransactions',
+      error: error.message,
+    });
   }
 }
