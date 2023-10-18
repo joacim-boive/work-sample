@@ -77,7 +77,7 @@ function NewTransactionForm({
       return axios.post('/api/add-transaction', data);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [] });
+      queryClient.invalidateQueries({ queryKey: [apiAllTransactions] });
       reset(); // Reset the form
       resetExistingAccountId(); // Reset the combobox
 

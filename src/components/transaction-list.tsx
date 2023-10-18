@@ -33,7 +33,11 @@ interface TransactionData {
 }
 
 const fetchTransactions = async ({ pageParam }) => {
-  const response = await axios.get(apiAllTransactions + `?cursor=${pageParam}`);
+  const url = !!pageParam
+    ? apiAllTransactions + `?cursor=${pageParam}`
+    : apiAllTransactions;
+
+  const response = await axios.get(url);
   return response.data;
 };
 
@@ -53,7 +57,7 @@ export default function TransactionList() {
     queryKey: [apiAllTransactions],
     queryFn: fetchTransactions,
     staleTime: Infinity,
-    initialPageParam: Date.now(),
+    initialPageParam: null,
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
   const { ref, inView } = useInView();
