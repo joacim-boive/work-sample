@@ -5,7 +5,6 @@
 // learn more: https://github.com/testing-library/jest-dom
 import { jest } from '@jest/globals';
 import '@testing-library/jest-dom';
-import '@testing-library/jest-dom/extend-expect';
 
 import { server } from './src/mocks/server';
 beforeAll(() => server.listen());
