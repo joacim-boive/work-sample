@@ -10,7 +10,7 @@ describe('NewTransactionForm', () => {
     const { getByLabelText, debug } = render(
       <RefreshProvider>
         <NewTransactionForm existingAccountIds={['123', '456', '789']} />
-      </RefreshProvider>
+      </RefreshProvider>,
     );
 
     // Assert that the combobox was rendered
@@ -21,7 +21,7 @@ describe('NewTransactionForm', () => {
     // Fill in the form fields
     await userEvent.type(
       screen.getByLabelText('Create new account'),
-      'Jest Test'
+      'Jest Test',
     );
     await userEvent.type(screen.getByLabelText('Amount'), '100');
 
@@ -39,7 +39,7 @@ describe('NewTransactionForm', () => {
     const { getByLabelText, debug } = render(
       <RefreshProvider>
         <NewTransactionForm existingAccountIds={[]} />
-      </RefreshProvider>
+      </RefreshProvider>,
     );
 
     // Submit the form
@@ -48,7 +48,7 @@ describe('NewTransactionForm', () => {
     // Form should be reset after successful submit
     await waitFor(async () => {
       expect(
-        screen.getByText(/Either select account or create a new one./i)
+        screen.getByText(/Either select account or create a new one./i),
       ).toBeInTheDocument();
       expect(screen.getByText(/Amount cannot be zero/i)).toBeInTheDocument();
     });
