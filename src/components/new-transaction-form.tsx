@@ -3,18 +3,18 @@
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Button } from '@/components/ui/button';
 import { Combobox } from '@/components/ui/combobox';
-
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import Spinner from '@/components/ui/spinner';
 import { useToast } from '@/components/ui/use-toast';
-import { useRefresh } from '@/context/refresh-context';
 import { addTransactionSchema } from '@/schemas/transaction-schema';
+import { apiAllAccountIds, apiAllTransactions } from '@/urls';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Controller, set, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import Spinner from './ui/spinner';
 
 type Option = {
   value: string;
@@ -28,6 +28,7 @@ function NewTransactionForm({
 }: {
   existingAccountIds: string[];
 }) {
+  const queryClient = useQueryClient();
   const form = useForm<FormData>({
     resolver: zodResolver(addTransactionSchema),
     defaultValues: {
@@ -48,16 +49,14 @@ function NewTransactionForm({
   } = form;
 
   const { toast } = useToast();
-  const { triggerRefresh } = useRefresh();
-  const [resetKey, setResetKey] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const [forceRender, setForceRender] = useState(0);
 
   const existingAccountId = watch('existingAccountId');
   const accountId = watch('accountId');
 
   const resetExistingAccountId = useCallback(() => {
     setValue('existingAccountId', '');
-    setResetKey((resetKey) => resetKey + 1); // Increment the reset key to force a re-render of the combobox.
+    setForceRender((forceRender) => forceRender + 1);
   }, [setValue]);
 
   const options: Option[] = existingAccountIds?.map((id) => ({
@@ -73,27 +72,21 @@ function NewTransactionForm({
     if (!!existingAccountId) setValue('accountId', '');
   }, [existingAccountId, setValue]);
 
-  const onSubmit = async (data: FormData) => {
-    const { existingAccountId, ...rest } = data;
-    const newData = {
-      ...rest,
-      accountId: existingAccountId || data.accountId,
-    };
-
-    try {
-      setIsLoading(true);
-      await axios.post('/api/transactions', newData);
-
-      triggerRefresh(); // Refresh the list of transactions
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (data: FormData) => {
+      return axios.post('/api/add-transaction', data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [apiAllTransactions] });
+      queryClient.invalidateQueries({ queryKey: [apiAllAccountIds] });
       reset(); // Reset the form
       resetExistingAccountId(); // Reset the combobox
-      setIsLoading(false);
 
       toast({
         description: 'Transaction submitted successfully.',
       });
-    } catch (error) {
-      setIsLoading(false);
+    },
+    onError: (error) => {
       console.error(error);
 
       toast({
@@ -102,7 +95,18 @@ function NewTransactionForm({
         description:
           'There was a problem submitting your transaction, please try again.',
       });
-    }
+    },
+  });
+
+  const onSubmit = async (data: FormData) => {
+    const { existingAccountId, ...rest } = data;
+    const newData = {
+      ...rest,
+      existingAccountId,
+      accountId: existingAccountId || data.accountId,
+    };
+
+    mutate(newData);
   };
 
   return (
@@ -120,7 +124,7 @@ function NewTransactionForm({
               <Label className="text-sm font-semibold">
                 Select an account
                 {/* TODO: Fix bug with lowercase account IDs. IDs become lowercase when they are selected from the list, creating duplicates. */}
-                <Combobox options={options} field={field} key={resetKey} />
+                <Combobox options={options} field={field} key={forceRender} />
               </Label>
               {errors.existingAccountId && (
                 <p>{errors.existingAccountId.message}</p>
@@ -182,7 +186,7 @@ function NewTransactionForm({
           role="button"
           className="ml-auto"
         >
-          {isLoading && <Spinner />}Submit
+          {isPending && <Spinner />}Submit
         </Button>
       </form>
     </ErrorBoundary>

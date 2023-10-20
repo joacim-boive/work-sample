@@ -22,13 +22,46 @@ export default async function getAllTransactions(
   }
 
   try {
-    const transactions = await db.all(
-      'SELECT * FROM transactions ORDER BY timestamp DESC LIMIT 1000',
-    );
-    return res.status(200).json({ success: true, transactions });
+    const {
+      limit = 10,
+      cursor = Date.now(),
+    }: { limit?: number; cursor?: number } = req.query;
+
+    const limitPlusOne = limit + 1;
+
+    let nextCursor: number | undefined;
+    let query = `
+      SELECT *
+      FROM transactions
+      WHERE timestamp < $cursor
+      ORDER BY timestamp DESC
+      LIMIT $limitPlusOne
+    `;
+
+    const transactions = await db.all(query, {
+      $limitPlusOne: limitPlusOne,
+      $cursor: cursor,
+    });
+
+    // Check if extra item exists to determine if we have a nextCursor for paging
+    const hasNextPage = transactions.length === limitPlusOne;
+    // Remove extra item if it exists
+    if (hasNextPage) {
+      transactions.pop();
+      nextCursor = transactions[transactions.length - 1]?.timestamp;
+    }
+
+    res.status(200).json({
+      success: true,
+      transactions,
+      nextCursor,
+    });
   } catch (error) {
-    return res
-      .status(400)
-      .json({ success: false, message: 'Error in getAllTransactions', error });
+    console.error('getAllTransactions - error:', error);
+    return res.status(400).json({
+      success: false,
+      message: 'Error in getAllTransactions',
+      error: error.message,
+    });
   }
 }
