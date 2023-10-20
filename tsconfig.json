@@ -12,7 +12,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "sourceMap": true,
     "plugins": [
       {
         "name": "next"
@@ -23,13 +22,6 @@
     },
     "strictNullChecks": true
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.js",
-    ".next/types/**/*.ts",
-    ".eslintrc.js"
-  ],
+  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }
