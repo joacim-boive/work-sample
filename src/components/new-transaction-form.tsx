@@ -3,6 +3,7 @@
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Button } from '@/components/ui/button';
 import { Combobox } from '@/components/ui/combobox';
+
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
@@ -10,7 +11,7 @@ import { useRefresh } from '@/context/refresh-context';
 import { addTransactionSchema } from '@/schemas/transaction-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Controller, set, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import Spinner from './ui/spinner';
@@ -54,10 +55,10 @@ function NewTransactionForm({
   const existingAccountId = watch('existingAccountId');
   const accountId = watch('accountId');
 
-  const resetExistingAccountId = () => {
+  const resetExistingAccountId = useCallback(() => {
     setValue('existingAccountId', '');
     setResetKey((resetKey) => resetKey + 1); // Increment the reset key to force a re-render of the combobox.
-  };
+  }, [setValue]);
 
   const options: Option[] = existingAccountIds?.map((id) => ({
     value: id,
@@ -67,7 +68,7 @@ function NewTransactionForm({
   // Handle so that just either of the two fields can be filled out.
   useEffect(() => {
     if (!!accountId) resetExistingAccountId();
-  }, [accountId, setValue]);
+  }, [accountId, setValue, resetExistingAccountId]);
   useEffect(() => {
     if (!!existingAccountId) setValue('accountId', '');
   }, [existingAccountId, setValue]);
