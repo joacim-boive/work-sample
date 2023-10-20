@@ -28,10 +28,3 @@ export function formatCurrency(
   });
   return formatter.format(amount);
 }
-
-export function formatAccountId(accountId: string): string {
-  if (accountId.length > 10) {
-    return accountId.slice(0, 10) + '...';
-  }
-  return accountId;
-}

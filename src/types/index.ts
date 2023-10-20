@@ -1,9 +1,7 @@
-export interface Transaction {
-  id: number;
+export type Transaction = {
   accountId: string;
   amount: number;
+  newBalance: number;
   timestamp: number;
   action: string;
-  newBalance: number;
-  newCursor: number;
-}
+};

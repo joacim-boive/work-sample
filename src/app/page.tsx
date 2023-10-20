@@ -1,4 +1,3 @@
-'use client';
 import NewTransactionCard from '@/components/new-transaction-card';
 import TransactionListCard from '@/components/transaction-list-card';
 import {
@@ -9,15 +8,12 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Toaster } from '@/components/ui/toaster';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { RefreshProvider } from '@/context/refresh-context';
 import React from 'react';
-
-const queryClient = new QueryClient();
 
 function Page(): JSX.Element {
   return (
-    <QueryClientProvider client={queryClient}>
+    <RefreshProvider>
       <div className="max-w-screen-lg mx-auto p-4">
         <Card>
           <CardHeader>
@@ -33,8 +29,7 @@ function Page(): JSX.Element {
         </Card>
       </div>
       <Toaster />
-      {/*  <ReactQueryDevtools initialIsOpen={false} /> */}
-    </QueryClientProvider>
+    </RefreshProvider>
   );
 }
 

@@ -1,7 +1,7 @@
 import { rest } from 'msw';
 
 export const handlers = [
-  rest.post('/api/add-transaction', (req, res, ctx) => {
+  rest.post('/api/transactions', (req, res, ctx) => {
     return res(
       ctx.status(201),
       ctx.json({
