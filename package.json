@@ -6,12 +6,13 @@
     "dev": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
-    "test": "npx cypress run",
+    "test": "jest",
     "lint": "eslint",
     "lint-fix": "eslint --fix",
-    "jest": "jest --watchAll",
+    "jest:watch": "jest --watchAll",
     "setup-db": "node ./src/utils/init-database.mjs",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "husky": {
     "hooks": {
@@ -39,6 +40,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
+    "cypress": "^13.3.2",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.1",
     "jest-environment-jsdom": "^29.7.0",
@@ -65,7 +67,6 @@
     "@typescript-eslint/eslint-plugin": "^6.7.5",
     "autoprefixer": "^10.4.4",
     "babel-jest": "^29.7.0",
-    "cypress": "^13.3.2",
     "eslint": "^8.51.0",
     "eslint-config-standard-with-typescript": "^39.1.1",
     "eslint-plugin-import": "^2.28.1",
