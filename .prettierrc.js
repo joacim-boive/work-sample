@@ -7,6 +7,7 @@ This file still needs to exist because other tools, like VSCode, use it to deter
 
 With the prettier plugin installed and Prettier set as default formatter it should format the code on save.
 https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
+
 */
 
 module.exports = {
