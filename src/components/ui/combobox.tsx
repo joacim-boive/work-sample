@@ -41,7 +41,6 @@ export function Combobox({
           role="combobox"
           aria-expanded={isOpen}
           className="w-full justify-between"
-          aria-label="Select account..."
         >
           <span className="truncate whitespace-nowrap">
             {value

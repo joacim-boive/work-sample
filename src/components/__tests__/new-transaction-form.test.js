@@ -1,15 +1,16 @@
 import NewTransactionForm from '@/components/new-transaction-form';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import * as refreshContext from '@/context/refresh-context';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-const queryClient = new QueryClient();
+const { RefreshProvider } = refreshContext;
+
 describe('NewTransactionForm', () => {
   it('should submit transaction with existing account ID and valid amount', async () => {
     const { getByLabelText, debug } = render(
-      <QueryClientProvider client={queryClient}>
+      <RefreshProvider>
         <NewTransactionForm existingAccountIds={['123', '456', '789']} />
-      </QueryClientProvider>,
+      </RefreshProvider>,
     );
 
     // Assert that the combobox was rendered
@@ -36,9 +37,9 @@ describe('NewTransactionForm', () => {
 
   it('should show error messages when the form is invalid', async () => {
     const { getByLabelText, debug } = render(
-      <QueryClientProvider client={queryClient}>
+      <RefreshProvider>
         <NewTransactionForm existingAccountIds={[]} />
-      </QueryClientProvider>,
+      </RefreshProvider>,
     );
 
     // Submit the form

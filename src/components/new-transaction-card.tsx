@@ -9,25 +9,34 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import Spinner from '@/components/ui/spinner';
-import { apiAllAccountIds } from '@/urls';
-import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-
-const fetchAccountIds = async () => {
-  const response = await axios.get(apiAllAccountIds);
-  return response.data.accountIds;
-};
+import React, { useEffect, useState } from 'react';
 
 export default function NewTransactionCard() {
-  const {
-    data: accountIds = [],
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: [apiAllAccountIds],
-    queryFn: fetchAccountIds,
-    staleTime: Infinity,
-  });
+  const [accountIds, setAccountIds] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get('/api/get-all-account-ids')
+      .then((response) => {
+        const { success, accountIds } = response.data;
+        if (success) {
+          setAccountIds(accountIds);
+          setIsError(false);
+        } else {
+          setIsError(true);
+        }
+      })
+      .catch((error) => {
+        setIsError(true);
+        console.error('/api/get-all-account-ids error:', error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
 
   return (
     <Card className="mb-4 sm:mr-4 md:self-start md:w-1/3">
