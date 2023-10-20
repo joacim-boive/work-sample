@@ -12,7 +12,7 @@ import { apiAllAccountIds, apiAllTransactions } from '@/urls';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -54,10 +54,10 @@ function NewTransactionForm({
   const existingAccountId = watch('existingAccountId');
   const accountId = watch('accountId');
 
-  const resetExistingAccountId = () => {
+  const resetExistingAccountId = useCallback(() => {
     setValue('existingAccountId', '');
     setForceRender((forceRender) => forceRender + 1);
-  };
+  }, [setValue]);
 
   const options: Option[] = existingAccountIds?.map((id) => ({
     value: id,
@@ -67,7 +67,7 @@ function NewTransactionForm({
   // Handle so that just either of the two fields can be filled out.
   useEffect(() => {
     if (!!accountId) resetExistingAccountId();
-  }, [accountId, setValue]);
+  }, [accountId, setValue, resetExistingAccountId]);
   useEffect(() => {
     if (!!existingAccountId) setValue('accountId', '');
   }, [existingAccountId, setValue]);
