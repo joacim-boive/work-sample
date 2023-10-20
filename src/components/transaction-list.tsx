@@ -134,14 +134,15 @@ export default function TransactionList() {
         <button
           ref={ref}
           onClick={() => fetchNextPage()}
-          disabled={!hasNextPage || isFetchingNextPage}
+          disabled={!hasNextPage || isFetchingNextPage || isFetching}
         >
-          {isFetchingNextPage && (
-            <>
-              <Spinner />
-              {'Loading more...'}
-            </>
-          )}
+          {isFetchingNextPage ||
+            (isFetching && (
+              <>
+                <Spinner />
+                {'Loading...'}
+              </>
+            ))}
           {!isFetchingNextPage && hasNextPage && 'Load older transactions'}
         </button>
       </div>
