@@ -5,16 +5,16 @@ import { Button } from '@/components/ui/button';
 import { Combobox } from '@/components/ui/combobox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import Spinner from '@/components/ui/spinner';
 import { useToast } from '@/components/ui/use-toast';
 import { addTransactionSchema } from '@/schemas/transaction-schema';
-import { apiAllTransactions } from '@/urls';
+import { apiAllAccountIds, apiAllTransactions } from '@/urls';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import Spinner from './ui/spinner';
 
 type Option = {
   value: string;
@@ -78,6 +78,7 @@ function NewTransactionForm({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [apiAllTransactions] });
+      queryClient.invalidateQueries({ queryKey: [apiAllAccountIds] });
       reset(); // Reset the form
       resetExistingAccountId(); // Reset the combobox
 
