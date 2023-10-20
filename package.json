@@ -11,13 +11,13 @@
     "lint-fix": "eslint --fix",
     "lint-staged": {
       "*.{js,jsx,ts,tsx}": [
-        "npm run lint", 
+        "npm run lint",
         "npm test --findRelatedTests --bail"
       ]
     },
     "husky": {
       "hooks": {
-        "pre-commit": "lint-staged" 
+        "pre-commit": "lint-staged"
       }
     },
     "jest": "jest --watchAll",
