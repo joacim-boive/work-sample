@@ -136,7 +136,6 @@ function NewTransactionForm({
           control={control}
           render={({ field }) => (
             <>
-              <Button onClick={resetExistingAccountId} className="mt-4" />
               <Label htmlFor="account-id" className="text-sm font-semibold">
                 Create new account
               </Label>
