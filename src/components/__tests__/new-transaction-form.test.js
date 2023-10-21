@@ -24,7 +24,9 @@ describe('NewTransactionForm', () => {
     renderNewTransactionForm(['123', '456', '789']);
 
     // Assert that the combobox was rendered
-    expect(screen.getByLabelText('Select an account')).toBeInTheDocument();
+    expect(
+      screen.getByLabelText('Choose an existing account'),
+    ).toBeInTheDocument();
     await userEvent.click(screen.getByRole('combobox'));
     expect(screen.getByRole('option', { name: '123' })).toBeInTheDocument();
 
@@ -65,7 +67,9 @@ describe('NewTransactionForm', () => {
     renderNewTransactionForm(['123']);
 
     // When
-    expect(screen.getByLabelText('Select an account')).toBeInTheDocument();
+    expect(
+      screen.getByLabelText('Choose an existing account'),
+    ).toBeInTheDocument();
     await userEvent.click(screen.getByRole('combobox'));
     expect(screen.getByRole('option', { name: '123' })).toBeInTheDocument();
     await userEvent.type(
