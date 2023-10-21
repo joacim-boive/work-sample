@@ -67,7 +67,7 @@ export default function TransactionList() {
     if (inView) {
       fetchNextPage();
     }
-  }, [inView]);
+  }, [fetchNextPage, inView]);
 
   useEffect(() => {
     if (!isFetchingNextPage && !hasNextPage) {
@@ -76,7 +76,7 @@ export default function TransactionList() {
         description: 'This was the last of your transactions',
       });
     }
-  }, [isFetchingNextPage, hasNextPage]);
+  }, [isFetchingNextPage, hasNextPage, toast]);
 
   return (
     <ErrorBoundary fallback={<p>There was an error showing transactions</p>}>

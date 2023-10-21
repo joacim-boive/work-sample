@@ -1,5 +1,10 @@
 {
-  "extends": ["next/core-web-vitals", "plugin:prettier/recommended"],
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:prettier/recommended",
+    "plugin:jsx-a11y/recommended"
+  ],
+  "plugins": ["jsx-a11y"],
   "rules": {
     "prettier/prettier": [
       "error",
