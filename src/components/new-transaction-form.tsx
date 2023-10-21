@@ -67,7 +67,7 @@ function NewTransactionForm({
   // Handle so that just either of the two fields can be filled out.
   useEffect(() => {
     if (!!accountId) resetExistingAccountId();
-  }, [accountId, setValue, resetExistingAccountId]);
+  }, [accountId, resetExistingAccountId]);
   useEffect(() => {
     if (!!existingAccountId) setValue('accountId', '');
   }, [existingAccountId, setValue]);

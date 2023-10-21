@@ -13,6 +13,7 @@ const customJestConfig = {
     '^.+\\.[jt]sx?$': 'babel-jest',
   },
   transformIgnorePatterns: ['/node_modules/'],
+  testPathIgnorePatterns: ['/node_modules/', '/.history/'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
