@@ -112,7 +112,6 @@ function NewTransactionForm({
   return (
     <ErrorBoundary fallback={<p>Something went wrong.</p>}>
       <form
-        role="form"
         onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-1 gap-2"
       >
@@ -122,7 +121,7 @@ function NewTransactionForm({
           render={({ field }) => (
             <>
               <Label className="text-sm font-semibold">
-                Select an account
+                Choose an existing account
                 {/* TODO: Fix bug with lowercase account IDs. IDs become lowercase when they are selected from the list, creating duplicates. */}
                 <Combobox options={options} field={field} key={forceRender} />
               </Label>

@@ -32,6 +32,9 @@ export function Combobox({
 }) {
   const [isOpen, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('');
+  const buttonLabel = value
+    ? options.find((option) => option.value === value)?.label
+    : 'Select account...';
 
   return (
     <Popover open={isOpen} onOpenChange={setOpen}>
@@ -41,12 +44,9 @@ export function Combobox({
           role="combobox"
           aria-expanded={isOpen}
           className="w-full justify-between"
+          aria-label={buttonLabel}
         >
-          <span className="truncate whitespace-nowrap">
-            {value
-              ? options.find((option) => option.value === value)?.label
-              : 'Select account...'}
-          </span>
+          <span className="truncate whitespace-nowrap">{buttonLabel}</span>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
