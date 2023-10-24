@@ -23,7 +23,7 @@ export default async function getAllTransactions(
 
   try {
     const {
-      limit = 8,
+      limit = 10,
       cursor = Date.now(),
     }: { limit?: number; cursor?: number } = req.query;
 

@@ -83,13 +83,13 @@ export default function TransactionList() {
     <ErrorBoundary fallback={<p>There was an error showing transactions</p>}>
       <Table>
         <TableCaption>A list of your recent transactions.</TableCaption>
-        <TableHeader>
+        <TableHeader className="sticky top-0 bg-muted/95">
           <TableRow>
-            <TableHead className="w-[120px] sticky top-0">Account</TableHead>
-            <TableHead className="sticky top-0">Date</TableHead>
-            <TableHead className="sticky top-0">Action</TableHead>
-            <TableHead className="sticky top-0">Amount</TableHead>
-            <TableHead className="sticky top-0 text-right">Balance</TableHead>
+            <TableHead className="w-[120px] ">Account</TableHead>
+            <TableHead>Date</TableHead>
+            <TableHead>Action</TableHead>
+            <TableHead>Amount</TableHead>
+            <TableHead className="text-right">Balance</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
