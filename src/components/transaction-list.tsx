@@ -143,9 +143,7 @@ export default function TransactionList() {
               {'Loading...'}
             </>
           ))}
-        {!isFetchingNextPage &&
-          hasNextPage &&
-          'Load older transactions - inView: ' + inView}
+        {!isFetchingNextPage && hasNextPage && 'Load older transactions'}
       </button>
     </ErrorBoundary>
   );
