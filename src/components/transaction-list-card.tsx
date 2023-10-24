@@ -11,16 +11,18 @@ import {
 
 export default function TransactionListCard() {
   return (
-    <Card className="flex-1">
-      <CardHeader>
-        <CardTitle>Transaction history</CardTitle>
-        <CardDescription>
-          Lists transactions in descending order
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <TransactionList />
-      </CardContent>
-    </Card>
+    <div className="col-span-7">
+      <Card>
+        <CardHeader>
+          <CardTitle>Transaction history</CardTitle>
+          <CardDescription>
+            Lists transactions in descending order
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <TransactionList />
+        </CardContent>
+      </Card>
+    </div>
   );
 }

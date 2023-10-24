@@ -65,9 +65,10 @@ export default function TransactionList() {
 
   useEffect(() => {
     if (inView) {
+      console.log('inview');
       fetchNextPage();
     }
-  }, [inView]);
+  }, [inView, fetchNextPage]);
 
   useEffect(() => {
     if (!isFetchingNextPage && !hasNextPage) {
@@ -76,7 +77,7 @@ export default function TransactionList() {
         description: 'This was the last of your transactions',
       });
     }
-  }, [isFetchingNextPage, hasNextPage]);
+  }, [isFetchingNextPage, hasNextPage, toast]);
 
   return (
     <ErrorBoundary fallback={<p>There was an error showing transactions</p>}>
@@ -84,11 +85,11 @@ export default function TransactionList() {
         <TableCaption>A list of your recent transactions.</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[120px]">Account</TableHead>
-            <TableHead>Date</TableHead>
-            <TableHead>Action</TableHead>
-            <TableHead>Amount</TableHead>
-            <TableHead className="text-right">Balance</TableHead>
+            <TableHead className="w-[120px] sticky top-0">Account</TableHead>
+            <TableHead className="sticky top-0">Date</TableHead>
+            <TableHead className="sticky top-0">Action</TableHead>
+            <TableHead className="sticky top-0">Amount</TableHead>
+            <TableHead className="sticky top-0 text-right">Balance</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -130,22 +131,22 @@ export default function TransactionList() {
           )}
         </TableBody>
       </Table>
-      <div>
-        <button
-          ref={ref}
-          onClick={() => fetchNextPage()}
-          disabled={!hasNextPage || isFetchingNextPage || isFetching}
-        >
-          {isFetchingNextPage ||
-            (isFetching && (
-              <>
-                <Spinner />
-                {'Loading...'}
-              </>
-            ))}
-          {!isFetchingNextPage && hasNextPage && 'Load older transactions'}
-        </button>
-      </div>
+      <button
+        ref={ref}
+        onClick={() => fetchNextPage()}
+        disabled={!hasNextPage || isFetchingNextPage || isFetching}
+      >
+        {isFetchingNextPage ||
+          (isFetching && (
+            <>
+              <Spinner />
+              {'Loading...'}
+            </>
+          ))}
+        {!isFetchingNextPage &&
+          hasNextPage &&
+          'Load older transactions - inView: ' + inView}
+      </button>
     </ErrorBoundary>
   );
 }
