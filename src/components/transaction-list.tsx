@@ -65,9 +65,10 @@ export default function TransactionList() {
 
   useEffect(() => {
     if (inView) {
+      console.log('inview');
       fetchNextPage();
     }
-  }, [inView]);
+  }, [inView, fetchNextPage]);
 
   useEffect(() => {
     if (!isFetchingNextPage && !hasNextPage) {
@@ -76,15 +77,15 @@ export default function TransactionList() {
         description: 'This was the last of your transactions',
       });
     }
-  }, [isFetchingNextPage, hasNextPage]);
+  }, [isFetchingNextPage, hasNextPage, toast]);
 
   return (
     <ErrorBoundary fallback={<p>There was an error showing transactions</p>}>
       <Table>
         <TableCaption>A list of your recent transactions.</TableCaption>
-        <TableHeader>
+        <TableHeader className="sticky top-0 bg-muted/95">
           <TableRow>
-            <TableHead className="w-[120px]">Account</TableHead>
+            <TableHead className="w-[120px] ">Account</TableHead>
             <TableHead>Date</TableHead>
             <TableHead>Action</TableHead>
             <TableHead>Amount</TableHead>
@@ -130,22 +131,20 @@ export default function TransactionList() {
           )}
         </TableBody>
       </Table>
-      <div>
-        <button
-          ref={ref}
-          onClick={() => fetchNextPage()}
-          disabled={!hasNextPage || isFetchingNextPage || isFetching}
-        >
-          {isFetchingNextPage ||
-            (isFetching && (
-              <>
-                <Spinner />
-                {'Loading...'}
-              </>
-            ))}
-          {!isFetchingNextPage && hasNextPage && 'Load older transactions'}
-        </button>
-      </div>
+      <button
+        ref={ref}
+        onClick={() => fetchNextPage()}
+        disabled={!hasNextPage || isFetchingNextPage || isFetching}
+      >
+        {isFetchingNextPage ||
+          (isFetching && (
+            <>
+              <Spinner />
+              {'Loading...'}
+            </>
+          ))}
+        {!isFetchingNextPage && hasNextPage && 'Load older transactions'}
+      </button>
     </ErrorBoundary>
   );
 }

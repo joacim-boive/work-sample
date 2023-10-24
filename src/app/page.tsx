@@ -26,7 +26,7 @@ function Page(): JSX.Element {
               Handles creations of accounts and updates to account balances
             </CardDescription>
           </CardHeader>
-          <CardContent className="flex flex-col md:flex-row">
+          <CardContent className="grid grid-cols-10 gap-4">
             <NewTransactionCard />
             <TransactionListCard />
           </CardContent>

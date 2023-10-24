@@ -39,7 +39,7 @@ export default function NewTransactionCard() {
   }, []);
 
   return (
-    <Card className="mb-4 sm:mr-4 md:self-start md:w-1/3">
+    <Card className="col-span-3 mb-4">
       <CardHeader>
         <CardTitle>Submit new transaction</CardTitle>
         <CardDescription>
